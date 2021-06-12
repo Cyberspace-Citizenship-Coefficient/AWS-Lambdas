@@ -1,0 +1,19 @@
+{
+  "name": "aws-lambdas",
+  "version": "1.0.0",
+  "description": "AWS Lambdas For Cyberspace Citizenship Coefficient",
+  "main": "index.js",
+  "scripts": {
+    "test": "tbd"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cyberspace-Citizenship-Coefficient/AWS-Lambdas.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cyberspace-Citizenship-Coefficient/AWS-Lambdas/issues"
+  },
+  "homepage": "https://github.com/Cyberspace-Citizenship-Coefficient/AWS-Lambdas#readme"
+}
