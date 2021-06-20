@@ -1,11 +1,13 @@
 #!/usr/bin/node node
 "use strict";
-// AWS Setup
-var AWS = require('aws-sdk');
-AWS.config.update({region: 'REGION'});
-const database = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 
-const fetch = require('node-fetch')
+const uuid = require('uuid');
+const vandium = require('vandium');
+const infractions = require('./infractions.js');
+
+//import { default as vandium } from 'vandium';
+//import * as infractions from './infractions';
+//import * as uuid from 'uuid';
 
 /*
 //https://www.google.com/maps/place/Hurts+Donut+Co./@41.5906877,-90.4613467,18.75z/data=!4m5!3m4!1s0x87e237589f7183cf:0x9ae594f08efebce7!8m2!3d41.5906647!4d-90.4610724
@@ -24,6 +26,37 @@ event = {
 	infractionID: xxxxx
 }
 */
+
+exports.handler = vandium.api()
+	.GET()
+		.handler(async (event) => {
+			console.log('GET handler');
+			return {
+				statusCode: 200,
+				body: 'hello'
+			};
+		})
+	.POST()
+		.validation({
+
+		})
+		.handler(async (event) => {
+			let infractionDAO = infractions.Singleton.getInstance();
+			// event.body should contain a JSON object
+			let infraction = {
+				id: uuid.v4(),                 // id
+				reporter: event.body.reporter, // reporter
+				timestamp: new Date(),         // timestamp
+				url: event.body.url,           // url
+				type: event.body.type,         // type
+				content: event.body.content    // content
+			};
+
+			await infractionDAO.put(infraction);
+			return infraction.id;
+		});
+
+/*
 
 exports.handler = async (event) => {
     console.log("EVENT: \n" + JSON.stringify(event, null, 2))
@@ -57,3 +90,4 @@ exports.handler = async (event) => {
         body: ''
     };
 };
+*/
