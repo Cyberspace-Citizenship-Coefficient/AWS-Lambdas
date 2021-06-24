@@ -18,6 +18,28 @@ const DefaultConnectionFactory = db.DefaultConnectionFactory;
     }
 
     /**
+     * Retrieves an infraction from the datastore.
+     * @param id the infraction id.
+     * @returns {object}
+     */
+
+    async get(id) {
+        let statementParameters = [ id ];
+        let statement = 'SELECT id, reporter, timestamp, url, type, content FROM Infractions WHERE id = ?';
+
+        try {
+            let connection = await this.getConnection();
+            let result = await connection.query(statement, statementParameters);
+            console.log(result);
+            return result;
+        } catch(err) {
+            console.log('error');
+            console.log(err);
+            throw err;
+        }
+    }
+
+    /**
      * Stores a new infraction into the database.
      * @param infraction the infraction
      * @returns {Promise<void>}
