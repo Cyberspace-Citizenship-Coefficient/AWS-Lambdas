@@ -29,12 +29,16 @@ event = {
 
 exports.handler = vandium.api()
 	.GET()
+		.validation({
+			pathParameters: {
+				id: 'string:min=1,max=100,required'
+			}
+		})
 		.handler(async (event) => {
-			console.log('GET handler');
-			return {
-				statusCode: 200,
-				body: 'hello'
-			};
+			let id = event.pathParameters.id;
+			let infractionDAO = infractions.Singleton.getInstance();
+			let infraction = infractionDAO.get(id);
+			return JSON.stringify(infraction);
 		})
 	.POST()
 		.validation({

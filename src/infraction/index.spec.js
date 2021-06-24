@@ -13,7 +13,47 @@ const infractions = require('./infractions');
 
 const expect = chai.expect;
 
-describe( 'myLambda', function() {
+describe( 'Infraction GET', function() {
+	let mockInfractionsDAO;
+	const constTestId = '12345';
+
+	beforeEach(() => {
+		// replace the actual InfractionsDAO with a mock
+		mockInfractionsDAO = {
+			get: jest.fn(value => {
+				return {
+					id: constTestId,
+					timestamp: new Date(),
+					reporter: 'test-reporter',
+					url: 'https://test-url',
+					type: 'test-type',
+					content: {}
+				}
+			})
+		};
+		infractions.Singleton.setInstance(mockInfractionsDAO);
+	});
+	it('with id reads from DAO', async function () {
+		let testEvent = lambdaEventMock.apiGateway()
+			.path('/infraction')
+			.pathParameters({ id : constTestId })
+			.method('GET')
+			.build();
+
+		await lambdaTester(myLambda.handler)
+			.event(testEvent)
+			.expectResult((result) => {
+				expect(result.statusCode).to.equal(200);
+				expect(result.body).is.a('string');
+
+				let value = JSON.parse(result.body);
+				expect(value.id).to.equal(constTestId);
+			});
+	});
+});
+
+
+describe( 'Infraction POST', function() {
 	let mockInfractionsDAO;
 
 	beforeEach(() => {
@@ -25,7 +65,7 @@ describe( 'myLambda', function() {
 		};
 		infractions.Singleton.setInstance(mockInfractionsDAO);
 	});
-	it('test success', async function () {
+	it('should write to DAO', async function () {
 		let testInfraction = {
 			'reporter':  'test-reporter',
 			'url': 'test-url',
