@@ -3,8 +3,6 @@
 const expect = require('chai').expect;
 const index = require('./index');
 
-console.log(index);
-
 describe( 'Configuration', function() {
 	it('has mysql configuration', async function () {
 		let db = index.db;
