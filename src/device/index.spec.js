@@ -42,10 +42,8 @@ describe( 'Getting a device', function() {
 
 describe( 'Storing a device', function() {
 	it('should succeed when valid', async function () {
-		let deviceId = '1234';
 		let sourceIP = '127.0.0.1'; // default ip (for now)
 		let device = {
-			id: deviceId,
 			source_ip: sourceIP
 		};
 
@@ -55,7 +53,7 @@ describe( 'Storing a device', function() {
 			.body(JSON.stringify(device))
 			.build();
 
-		let putFunc = jest.fn(value => { }) // no-op
+		let putFunc = jest.fn(value => uuid.v4())
 
 		devices.Singleton.setInstance({
 			put: putFunc
@@ -65,10 +63,12 @@ describe( 'Storing a device', function() {
 			.event(event)
 			.expectResult((result) => {
 				expect(result.statusCode).to.equal(201);
-				expect(putFunc.mock.calls.length).to.be.equal(1);
 
+				expect(result.body).is.a('string');
+				expect(result.body).has.length(38);
+
+				expect(putFunc.mock.calls.length).to.be.equal(1);
 				let firstCall = putFunc.mock.calls[0][0];
-				expect(firstCall.id).is.eq(deviceId);
 				expect(firstCall.source_ip).is.eq(sourceIP);
 			});
 	});

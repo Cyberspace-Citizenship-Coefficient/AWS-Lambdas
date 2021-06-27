@@ -1,5 +1,6 @@
 "use strict";
 
+const uuid = require('uuid');
 const common = require('ccc-aws-lambda-common');
 
 const tableName = 'devices';
@@ -53,9 +54,11 @@ const tableName = 'devices';
      */
     async put(device) {
         let dynamo = await this.client();
+        let deviceId = uuid.v4();
+
         let deviceAsItem = {
             "id": {
-                "S": device.id
+                "S": deviceId
             },
             "timestamp": {
                 "S": (new Date()).toISOString()
@@ -79,7 +82,7 @@ const tableName = 'devices';
                     console.log(err);
                     reject(err);
                 } else {
-                    resolve(data);
+                    resolve(deviceId);
                 }
             });
         });
