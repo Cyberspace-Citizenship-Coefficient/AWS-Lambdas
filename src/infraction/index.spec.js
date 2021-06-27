@@ -83,6 +83,8 @@ describe( 'Infraction POST', function() {
 			.body(JSON.stringify(testInfraction))
 			.build();
 
+		console.log(JSON.stringify(testEvent));
+
 		await lambdaTester(myLambda.handler)
 			.event(testEvent)
 			.expectResult((result) => {

@@ -22,14 +22,14 @@
     "grunt": "^1.4.1",
     "grunt-aws-lambda": "^0.13.0",
     "jasmine": "^3.7.0",
-    "jest": "^27.0.4",
+    "jest": "^27.0.5",
     "jest-mock": "^27.0.3",
     "lambda-event-mock": "^1.5.0",
     "lambda-tester": "^4.0.1"
   },
   "dependencies": {
-    "aws-sdk": "^2.931.0",
-    "mysql": "^2.18.1",
+    "aws-sdk": "^2.935.0",
+    "ccc-aws-lambda-common": "^1.0.6",
     "uuid": "^8.3.2",
     "vandium": "^6.1.0"
   }
