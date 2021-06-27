@@ -7,7 +7,7 @@ module.exports = function (grunt) {
     },
     lambda_deploy: {
       default: {
-        arn: 'arn:aws:lambda:us-east-2:656366925447:function:ccc-aws-infraction',
+        arn: 'arn:aws:lambda:us-east-2:656366925447:function:ccc-aws-device',
         options: {
           region: 'us-east-2'
         }
