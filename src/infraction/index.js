@@ -30,13 +30,13 @@ exports.handler = vandium.api()
 	.GET()
 		.validation({
 			pathParameters: {
-				id: 'string:min=1,max=100,required'
+				id: 'string:min=36,max=36'
 			}
 		})
 		.handler(async (event) => {
 			let id = event.pathParameters.id;
 			let infractionDAO = infractions.Singleton.getInstance();
-			let infraction = infractionDAO.get(id);
+			let infraction = await infractionDAO.get(id);
 			return JSON.stringify(infraction);
 		})
 	.POST()

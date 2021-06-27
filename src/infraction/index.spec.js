@@ -16,7 +16,7 @@ const expect = chai.expect;
 
 describe( 'Infraction GET', function() {
 	let mockInfractionsDAO;
-	const constTestId = '12345';
+	const constTestId = uuid.v4();
 
 	beforeEach(() => {
 		// replace the actual InfractionsDAO with a mock
@@ -82,8 +82,6 @@ describe( 'Infraction POST', function() {
 			.method('POST')
 			.body(JSON.stringify(testInfraction))
 			.build();
-
-		console.log(JSON.stringify(testEvent));
 
 		await lambdaTester(myLambda.handler)
 			.event(testEvent)

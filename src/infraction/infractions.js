@@ -5,6 +5,44 @@ const common = require('ccc-aws-lambda-common');
 
 const tableName = 'infractions';
 
+function DataValidationException(message) {
+    const error = new Error(message);
+    return error;
+}
+DataValidationException.prototype = Object.create(Error.prototype);
+
+function stringValidator(element) {
+    let value = element.S;
+    if (value) {
+        return value;
+    }
+
+    throw new DataValidationException('expected string, but received ' + JSON.stringify(element));
+}
+
+function getAttribute(item, name, typeValidator, missingHandler) {
+    let element = item[name];
+    if (element) {
+        return typeValidator(element);
+    }
+
+    return missingHandler();
+}
+
+function optionalAttribute(item, name, typeValidator) {
+    return getAttribute(item, name, typeValidator, () => undefined);
+}
+
+function requiredAttribute(item, name, typeValidator) {
+    return getAttribute(item, name, typeValidator, () => {
+        throw new DataValidationException('missing required element ' + name);
+    });
+}
+
+function requiredString(item, name) {
+    return requiredAttribute(item, name, stringValidator);
+}
+
 /* export */ class InfractionDAO {
     constructor(configuration) {
         if (configuration !== undefined) {
@@ -28,19 +66,44 @@ const tableName = 'infractions';
     async get(id) {
         let parameters = {
             TableName: tableName,
-            Key: { "id" : id }
+            Key: {"id": {"S": id}}
         }
 
         let dynamo = await this.client();
 
         return new Promise((resolve, reject) => {
-            dynamo.get(parameters, function(err, data) {
+            dynamo.getItem(parameters, function(err, data) {
                 if (err) {
                     console.log(err);
                     reject(err);
                 } else {
-                    console.log(data);
-                    resolve(data);
+                    // Expected return value (if found):
+                    // {
+                    //   Item: {
+                    //     content: { S: '{}' },
+                    //     reporter: { S: 'test-reporter' },
+                    //     id: { S: '4da4815b-57e1-4d10-8a2f-c70c88265474' },
+                    //     url: { S: 'test-url' },
+                    //     type: { S: 'test-type' },
+                    //     timestamp: { S: '2021-06-27T21:53:17.784Z' }
+                    //   }
+                    // }
+
+                    let itemData = data.Item;
+                    if (itemData) {
+                        let item = {
+                            id: requiredString(itemData, 'id'),
+                            reporter: requiredString(itemData, 'reporter'),
+                            url: requiredString(itemData, 'url'),
+                            type: requiredString(itemData, 'type'),
+                            timestamp: requiredString(itemData, 'timestamp'),
+                            content: optionalAttribute(itemData, 'content', stringValidator)
+                        };
+
+                        resolve(item);
+                    } else {
+                        resolve(undefined);
+                    }
                 }
             });
         });
