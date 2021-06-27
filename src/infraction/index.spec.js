@@ -1,5 +1,6 @@
 'use strict';
 
+const uuid = require('uuid');
 const chai = require('chai');
 const lambdaTester = require('lambda-tester');
 const lambdaEventMock = require('lambda-event-mock');
@@ -54,18 +55,22 @@ describe( 'Infraction GET', function() {
 
 
 describe( 'Infraction POST', function() {
-	let mockInfractionsDAO;
-
-	beforeEach(() => {
-		// replace the actual InfractionsDAO with a mock
-		mockInfractionsDAO = {
-			put: jest.fn(value => {
-				// do nothing
-			})
-		};
-		infractions.Singleton.setInstance(mockInfractionsDAO);
-	});
 	it('should write to DAO', async function () {
+		let infractionId = uuid.v4();
+		let timestamp = (new Date()).toISOString();
+		let daoResult = {
+			id: infractionId,
+			timestamp: timestamp,
+			result: {}
+		};
+
+		// replace the actual InfractionsDAO with a mock
+		let mockInfractionsDAO = {
+			put: jest.fn(value => daoResult)
+		};
+
+		infractions.Singleton.setInstance(mockInfractionsDAO);
+
 		let testInfraction = {
 			'reporter':  'test-reporter',
 			'url': 'test-url',

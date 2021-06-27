@@ -48,16 +48,14 @@ exports.handler = vandium.api()
 			let infractionDAO = infractions.Singleton.getInstance();
 			// event.body should contain a JSON object
 			let infraction = {
-				id: uuid.v4(),                 // id
-				reporter: event.body.reporter, // reporter
-				timestamp: new Date(),         // timestamp
-				url: event.body.url,           // url
-				type: event.body.type,         // type
-				content: event.body.content    // content
+				reporter: event.body.reporter,         // reporter
+				url: event.body.url,                   // url
+				type: event.body.type,                 // type
+				content: event.body.content            // content
 			};
 
-			await infractionDAO.put(infraction);
-			return infraction.id;
+			let result = await infractionDAO.put(infraction);
+			return result.id;
 		});
 
 /*

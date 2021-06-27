@@ -1,20 +1,22 @@
 "use strict";
 
-const db = require('./db.js');
-const DefaultConnectionFactory = db.DefaultConnectionFactory;
+const uuid = require('uuid');
+const common = require('ccc-aws-lambda-common');
 
-//import { DefaultConnectionFactory } from "./db";
+const tableName = 'infractions';
 
 /* export */ class InfractionDAO {
-    constructor(connectionFactory) {
-        this.connectionFactory = connectionFactory;
+    constructor(configuration) {
+        if (configuration !== undefined) {
+            this.dynamodb = configuration.dynamodb;
+        }
     }
 
-    /**
-     * Returns a connection from the connection factory.
-     */
-    async getConnection() {
-        return this.connectionFactory.getConnection();
+    async client() {
+        if (this.dynamodb === undefined) {
+            this.dynamodb = await common.db.dynamodb.getClient();
+        }
+        return this.dynamodb;
     }
 
     /**
@@ -24,19 +26,24 @@ const DefaultConnectionFactory = db.DefaultConnectionFactory;
      */
 
     async get(id) {
-        let statementParameters = [ id ];
-        let statement = 'SELECT id, reporter, timestamp, url, type, content FROM Infractions WHERE id = ?';
-
-        try {
-            let connection = await this.getConnection();
-            let result = await connection.query(statement, statementParameters);
-            console.log(result);
-            return result;
-        } catch(err) {
-            console.log('error');
-            console.log(err);
-            throw err;
+        let parameters = {
+            TableName: tableName,
+            Key: { "id" : id }
         }
+
+        let dynamo = await this.client();
+
+        return new Promise((resolve, reject) => {
+            dynamo.get(parameters, function(err, data) {
+                if (err) {
+                    console.log(err);
+                    reject(err);
+                } else {
+                    console.log(data);
+                    resolve(data);
+                }
+            });
+        });
     }
 
     /**
@@ -45,26 +52,37 @@ const DefaultConnectionFactory = db.DefaultConnectionFactory;
      * @returns {Promise<void>}
      */
     async put(infraction) {
-       let statementParameters = [
-            infraction.id,         // id
-            infraction.reporter,   // reporter
-            infraction.timestamp,  // timestamp
-            infraction.url,        // url
-            infraction.type,       // type
-            infraction.content     // content
-        ];
+        let dynamo = await this.client();
+        let infractionId = uuid.v4();
+        let timestamp = (new Date()).toISOString();
+        let dynamoItem = {
+            "id": {"S": infractionId},
+            "reporter": {"S": infraction.reporter},
+            "timestamp": {"S": timestamp},
+            "url": {"S": infraction.url},
+            "type": {"S": infraction.type},
+            "content": {"S": infraction.content}
+        };
 
-        let statement = 'INSERT INTO Infractions(?,?,?,?,?,?)';
+        let parameters = {
+            TableName: tableName,
+            Item: dynamoItem
+        };
 
-        try {
-            let connection = await this.getConnection();
-            let result = await connection.query(statement, statementParameters);
-            console.log(result);
-        } catch(err) {
-            console.log('error');
-            console.log(err);
-            throw err;
-        }
+        return new Promise((resolve, reject) => {
+            dynamo.putItem(parameters, function(err, data) {
+                if (err) {
+                    console.log(err);
+                    reject(err);
+                } else {
+                    resolve({
+                        id: infractionId,
+                        timestamp: timestamp,
+                        result: data
+                    });
+                }
+            });
+        });
     }
 }
 
