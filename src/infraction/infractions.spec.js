@@ -16,18 +16,18 @@ let validInfraction = {
 };
 
 describe( 'valid infractions', function() {
-	let myQuery = jest.fn((stmt, stmtParams) => {
-		// no-op
+	let myPutItem = jest.fn((parameters, callback) => {
+		callback(undefined, {});
 	});
-	let myConnection = { query: myQuery };
-	let myGetConnection = jest.fn( () => myConnection);
-	let infractionDAO = new infractions.InfractionDAO({
-		getConnection: myGetConnection
+	let dao = new infractions.InfractionDAO({
+		dynamodb: {
+			putItem: myPutItem
+		}
 	});
 
 	it('should be stored in database', async function () {
 
-		await infractionDAO.put(validInfraction);
-		expect(myGetConnection.mock.calls.length).is.eq(1);
+		await dao.put(validInfraction);
+		expect(myPutItem.mock.calls.length).is.eq(1);
 	});
 });
