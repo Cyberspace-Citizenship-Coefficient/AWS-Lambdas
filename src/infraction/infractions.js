@@ -1,5 +1,6 @@
 "use strict";
 
+const uuid = require('uuid');
 const common = require('ccc-aws-lambda-common');
 
 const tableName = 'infractions';
@@ -38,7 +39,6 @@ const tableName = 'infractions';
                     console.log(err);
                     reject(err);
                 } else {
-                    console.log('data');
                     console.log(data);
                     resolve(data);
                 }
@@ -53,10 +53,12 @@ const tableName = 'infractions';
      */
     async put(infraction) {
         let dynamo = await this.client();
+        let infractionId = uuid.v4();
+        let timestamp = (new Date()).toISOString();
         let dynamoItem = {
-            "id": {"S": infraction.id},
+            "id": {"S": infractionId},
             "reporter": {"S": infraction.reporter},
-            "timestamp": {"S": infraction.timestamp},
+            "timestamp": {"S": timestamp},
             "url": {"S": infraction.url},
             "type": {"S": infraction.type},
             "content": {"S": infraction.content}
@@ -73,7 +75,11 @@ const tableName = 'infractions';
                     console.log(err);
                     reject(err);
                 } else {
-                    resolve(data);
+                    resolve({
+                        id: infractionId,
+                        timestamp: timestamp,
+                        result: data
+                    });
                 }
             });
         });

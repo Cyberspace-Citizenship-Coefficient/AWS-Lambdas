@@ -26,7 +26,6 @@ describe( 'valid infractions', function() {
 	});
 
 	it('should be stored in database', async function () {
-
 		await dao.put(validInfraction);
 		expect(myPutItem.mock.calls.length).is.eq(1);
 	});
