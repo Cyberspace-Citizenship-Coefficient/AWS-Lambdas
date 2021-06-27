@@ -4,11 +4,6 @@ const expect = require('chai').expect;
 const index = require('./index');
 
 describe( 'Configuration', function() {
-	it('has mysql configuration', async function () {
-		let db = index.db;
-		expect(db.ConnectionFactory).to.exist;
-		expect(db.DefaultConnectionFactory).to.exist;
-	});
 	it('has dynamodb configuration', async function() {
 		let db = index.db;
 		expect(db.dynamodb).to.exist;

@@ -95,7 +95,7 @@ exports.Singleton = (function(){
         },
         getInstance : function(){
             if(!instance) {  // check already exists
-                instance = new InfractionDAO(new DefaultConnectionFactory());
+                instance = new InfractionDAO();
             }
             return instance;
         }

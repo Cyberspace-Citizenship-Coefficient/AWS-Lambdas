@@ -1,7 +1,6 @@
 {
   "name": "ccc-aws-lambda-common",
-  "type": "module",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Common library infrastructure for lambdas",
   "main": "index.js",
   "scripts": {
@@ -13,8 +12,7 @@
     "registry": "http://localhost:4873"
   },
   "dependencies": {
-    "aws-sdk": "^2.935.0",
-    "mysql": "^2.18.1"
+    "aws-sdk": "^2.935.0"
   },
   "devDependencies": {
     "chai": "^4.3.4"

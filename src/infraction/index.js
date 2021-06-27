@@ -1,7 +1,6 @@
 #!/usr/bin/node node
 "use strict";
 
-const uuid = require('uuid');
 const vandium = require('vandium');
 const infractions = require('./infractions.js');
 

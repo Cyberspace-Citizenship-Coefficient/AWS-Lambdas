@@ -48,13 +48,6 @@ async function getDatabaseHost() {
     return config.host;
 }
 
-exports.mysql = {
-    port: databasePort,
-    host: getDatabaseHost,
-    user: databaseUser,
-    password: getDatabasePassword
-};
-
 exports.dynamodb = {
     region: appRegion
 }
