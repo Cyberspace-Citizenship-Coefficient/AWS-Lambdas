@@ -23,11 +23,12 @@ exports.handler = vandium.api()
 
 		})
 		.handler(async (event) => {
+			console.log(JSON.stringify(event));
 			let deviceDAO = devices.Singleton.getInstance();
 			let device = {
-				id: event.body.id,      // id
 				source_ip: '127.0.0.1'  // source
 			};
 
-			await deviceDAO.put(device);
+			let deviceId = await deviceDAO.put(device);
+			return JSON.stringify(deviceId);
 		});
