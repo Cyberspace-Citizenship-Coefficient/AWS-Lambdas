@@ -38,7 +38,7 @@ describe('valid id', function() {
 				timestamp: {"S": validInfractionTimestamp},
 				url: {"S": 'test-url'},
 				type: {"S": 'test-type'},
-				content: {"S": '{}'}
+				content: {"S": JSON.stringify('{}')}
 			}
 		};
 

@@ -91,13 +91,18 @@ function requiredString(item, name) {
 
                     let itemData = data.Item;
                     if (itemData) {
+                        let content = optionalAttribute(itemData, 'content', stringValidator);
+                        if (content) {
+                            content = JSON.parse(content);
+                        }
+
                         let item = {
                             id: requiredString(itemData, 'id'),
                             reporter: requiredString(itemData, 'reporter'),
                             url: requiredString(itemData, 'url'),
                             type: requiredString(itemData, 'type'),
                             timestamp: requiredString(itemData, 'timestamp'),
-                            content: optionalAttribute(itemData, 'content', stringValidator)
+                            content: content
                         };
 
                         resolve(item);
@@ -118,13 +123,18 @@ function requiredString(item, name) {
         let dynamo = await this.client();
         let infractionId = uuid.v4();
         let timestamp = (new Date()).toISOString();
+        let content = infraction.content;
+        if (content) {
+            content = JSON.stringify(content);
+        }
+
         let dynamoItem = {
             "id": {"S": infractionId},
             "reporter": {"S": infraction.reporter},
             "timestamp": {"S": timestamp},
             "url": {"S": infraction.url},
             "type": {"S": infraction.type},
-            "content": {"S": infraction.content}
+            "content": {"S": content}
         };
 
         let parameters = {
