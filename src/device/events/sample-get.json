@@ -1,0 +1,17 @@
+{
+  "resource": "/device",
+  "path": "/device",
+  "httpMethod": "GET",
+  "headers": null,
+  "queryStringParameters": null,
+  "pathParameters": {
+    "id": "4da4815b-57e1-4d10-8a2f-c70c88265474"
+  },
+  "stageVariables": null,
+  "requestContext": {
+    "resourcePath": "/device",
+    "apiId": "00aaa0a00a"
+  },
+  "body": null,
+  "isBase64Encoded": false
+}
