@@ -98,7 +98,7 @@ exports.Singleton = (function(){
         },
         getInstance : function(){
             if(!instance) {  // check already exists
-                instance = new DeviceDAO(new DefaultConnectionFactory());
+                instance = new DeviceDAO();
             }
             return instance;
         }
