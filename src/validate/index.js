@@ -32,12 +32,13 @@ const baseValidator = async (URL, specificValidator, reportedElement) => {
 		headless: true
 	});
 
+	let result = '';
 	try {
 		page = await browser.newPage();
 		await page.goto(URL, {waitUntil: 'networkidle0'});
 		await page.exposeFunction('VALIDATE', specificValidator);
 		
-		const result = await page.evaluate(async (badElement) => {
+		result = await page.evaluate(async (badElement) => {
 			// Find the element that was reported 
 			const query = badElement.path
 				.filter(x => x.localName != undefined)
@@ -53,9 +54,12 @@ const baseValidator = async (URL, specificValidator, reportedElement) => {
 	} catch (error) {
 		console.log('ERROR OCCURED')
 		console.log(error)
+		result = "UNVALIDATIBLE"
 	}
 	
 	browser.close();
+	console.log(result)
+	return result
 }
 
 const report = {
@@ -127,4 +131,4 @@ const report = {
 	"url": "https://www.wsj.com/articles/miami-area-condo-collapse-sparks-calls-for-tighter-laws-11625922002?mod=hp_lead_pos7"
 }
 
-baseValidator(report.url, console.log, report.content)
+baseValidator(report.url, a => {console.log(a); return 'hi'}, report.content)
