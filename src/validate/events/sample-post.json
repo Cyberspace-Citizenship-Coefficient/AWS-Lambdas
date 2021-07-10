@@ -1,0 +1,15 @@
+{
+    "resource":"/validate",
+    "path":"/validate",
+    "httpMethod":"POST",
+    "headers":null,
+    "queryStringParameters":null,
+    "pathParameters":null,
+    "stageVariables":null,
+    "requestContext":{
+	"resourcePath":"/validate",
+	"apiId":"00aaa0a00a"
+    },
+    "body":null,
+    "isBase64Encoded":false
+}
