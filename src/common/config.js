@@ -50,6 +50,14 @@ async function getDatabaseHost() {
 
 exports.dynamodb = {
     region: appRegion
-}
+};
+
+exports.sns = {
+    region: appRegion
+};
+
+exports.sqs = {
+    region: appRegion
+};
 
 module.exports = exports;

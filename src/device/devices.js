@@ -3,7 +3,7 @@
 const uuid = require('uuid');
 const common = require('ccc-aws-lambda-common');
 
-const tableName = 'devices';
+const defaultTableName = 'devices';
 
 /* export */ class DeviceDAO {
     constructor(configuration) {
@@ -15,6 +15,10 @@ const tableName = 'devices';
     async client() {
         if (this.dynamodb === undefined) {
             this.dynamodb = await common.db.dynamodb.getClient();
+            this.tableName = configuration.tableName;
+        }
+        if (!this.tableName) {
+            this.tableName = defaultTableName;
         }
         return this.dynamodb;
     }
@@ -27,7 +31,7 @@ const tableName = 'devices';
 
     async get(id) {
         let parameters = {
-            TableName: tableName,
+            TableName: this.tableName,
             Key: { "id" : id }
         }
 
@@ -72,7 +76,7 @@ const tableName = 'devices';
         }
 
         let parameters = {
-            TableName: tableName,
+            TableName: this.tableName,
             Item: deviceAsItem
         };
 
