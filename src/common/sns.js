@@ -4,10 +4,10 @@ const AWS = require('aws-sdk');
 const config = require('./config.js');
 
 module.exports = {
-    // DynamoDB
-    dynamodb: {
+    // SNS
+    sns: {
         getClient: async function () {
-            return new AWS.DynamoDB({region: config.dynamodb.region});
+            return new AWS.SNS({region: config.sns.region});
         }
     }
 }

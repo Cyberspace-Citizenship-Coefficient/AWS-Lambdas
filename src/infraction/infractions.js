@@ -3,7 +3,7 @@
 const uuid = require('uuid');
 const common = require('ccc-aws-lambda-common');
 
-const tableName = 'infractions';
+const defaultTableName = process.env.TBL_INFRACTIONS || 'infractions';
 
 function DataValidationException(message) {
     const error = new Error(message);
@@ -47,6 +47,10 @@ function requiredString(item, name) {
     constructor(configuration) {
         if (configuration !== undefined) {
             this.dynamodb = configuration.dynamodb;
+            this.tableName = configuration.tableName;
+        }
+        if (!this.tableName) {
+            this.tableName = defaultTableName;
         }
     }
 
@@ -65,7 +69,7 @@ function requiredString(item, name) {
 
     async get(id) {
         let parameters = {
-            TableName: tableName,
+            TableName: this.tableName,
             Key: {"id": {"S": id}}
         }
 
@@ -138,7 +142,7 @@ function requiredString(item, name) {
         };
 
         let parameters = {
-            TableName: tableName,
+            TableName: this.tableName,
             Item: dynamoItem
         };
 
