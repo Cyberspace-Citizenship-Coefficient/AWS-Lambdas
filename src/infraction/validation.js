@@ -3,17 +3,21 @@
 const common = require('ccc-aws-lambda-common');
 
 // the AWS topic (SNS) that will receive validation requests
-let defaultValidationTopic = process.env.TOPIC_VALIDATION || 'validation_topic';
+let defaultValidationTopic = process.env.ARN_TOPIC_VALIDATION || 'validation_topic';
 
 class Validator {
     constructor(configuration) {
         if (configuration !== undefined) {
             this.sns = configuration.sns;
-            this.validationTopic = configuration.validationTopic;
+            this.validationTopicArn = configuration.validationTopicArn;
         }
 
-        if (!this.validationTopic) {
-            this.validationTopic = defaultValidationTopic;
+        if (!this.validationTopicArn) {
+            this.validationTopicArn = defaultValidationTopic;
+        }
+
+        if (!this.validationTopicArn) {
+            throw new Error('Missing validation topic ARN');
         }
     }
 
@@ -33,7 +37,7 @@ class Validator {
         let sns = await this.client();
         let parameters = {
             Message: JSON.stringify(infraction),
-            TopicArn: this.validationTopic
+            TopicArn: this.validationTopicArn
         }
 
         return new Promise((resolve, reject) => {
@@ -42,6 +46,7 @@ class Validator {
                     console.log(err);
                     reject(err);
                 } else {
+		    console.log('Successful delivery to topic');
                     resolve(undefined);
                 }
             });

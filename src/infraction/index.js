@@ -58,7 +58,7 @@ exports.handler = vandium.api()
 					throw error;
 				}
 
-				validation.Singleton.getInstance().validate(infraction);
+				await validation.Singleton.getInstance().validate(infraction);
 			} else {
 				let error = new Error('Bad Request');
 				error.statusCode = 400;
