@@ -1,0 +1,15 @@
+{
+  "name": "ccc-aws-infraction-types",
+  "version": "1.0.0",
+  "description": "Infraction types for CCC",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^1.4.1",
+    "grunt-aws-lambda": "^0.13.0"
+  }
+}
