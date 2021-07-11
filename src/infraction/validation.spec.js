@@ -21,7 +21,8 @@ describe( '...', function() {
 	});
 	let snsInstance = { publish: snsPublish }
 	let validator = new validation.Validator({
-		sns: snsInstance
+		sns: snsInstance,
+		validationTopicArn: 'validation_topic_arn'
 	});
 
 	it('should send to SNS', async function () {
@@ -34,6 +35,6 @@ describe( '...', function() {
 
 		let invocation = snsPublish.mock.calls[0][0];
 		expect(invocation.Message).is.eq(infractionAsJson);
-		expect(invocation.TopicArn).is.eq('validation_topic');
+		expect(invocation.TopicArn).is.eq('validation_topic_arn');
 	});
 });
