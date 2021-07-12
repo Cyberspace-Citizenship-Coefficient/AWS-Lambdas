@@ -2,11 +2,7 @@
 "use strict";
 
 const vandium = require('vandium');
-const baseValidator = require('./base_validator').baseValidator;
-
-function scoreInfraction() {
-	console.log('score this site');
-}
+const validator = require('./base_validator');
 
 exports.handler = vandium.sqs((records, context) => {
 	return Promise.all(records.map(record => {
@@ -16,6 +12,6 @@ exports.handler = vandium.sqs((records, context) => {
 		let messageBody = JSON.parse(record.body);
 		let infraction = JSON.parse(messageBody.Message);
 		// Use infraction.type to determine what handling you intend
-		return baseValidator(infraction.url, scoreInfraction, infraction.content);
+		return validator.Singleton.getInstance().validate(infraction);
 	}));
 });

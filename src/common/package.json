@@ -1,6 +1,6 @@
 {
   "name": "ccc-aws-lambda-common",
-  "version": "1.0.9",
+  "version": "1.0.15",
   "description": "Common library infrastructure for lambdas",
   "main": "index.js",
   "scripts": {

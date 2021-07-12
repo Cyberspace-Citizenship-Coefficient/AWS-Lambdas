@@ -8,46 +8,56 @@ URL (String) URL to validate
 specificValidator (Function) function to call for validation
 reportedElement (Object)
 */
-const baseValidator = async (URL, specificValidator, reportedElement) => {
-    let browser, page;
 
-    browser = await puppeteer.launch({
-        args: [
-            "--no-sandbox",
-            "--start-fullscreen"
-        ],
-        ignoreHTTPSErrors:true,
-        headless: true
-    });
-
-    let result = '';
-    try {
-        page = await browser.newPage();
-        await page.goto(URL, {waitUntil: 'networkidle0'});
-        await page.exposeFunction('VALIDATE', specificValidator);
-
-        result = await page.evaluate(async (badElement) => {
-            // Find the element that was reported
-            const query = badElement.path
-                .filter(x => x.localName != undefined)
-                .map(x => x.localName)
-                .reverse()
-                .join(' > ')
-            const possibleElements = document.querySelectorAll(query)
-            let element = [...possibleElements].filter(n => n.outerHTML == badElement.outerHTML);
-
-            // Call the validator
-            return await window.VALIDATE(element[0].outerHTML)
-        }, reportedElement);
-    } catch (error) {
-        console.log('ERROR OCCURED')
-        console.log(error)
-        result = "UNVALIDATIBLE"
+class Validator {
+    async validate(infraction) {
     }
+}
 
-    browser.close();
-    console.log(result)
-    return result
+class CoreValidator extends Validator {
+    async validate(infraction) {
+        let URL = infraction.url;
+        let reportedElement = infraction.content;
+        let browser, page;
+
+        browser = await puppeteer.launch({
+            args: [
+                "--no-sandbox",
+                "--start-fullscreen"
+            ],
+            ignoreHTTPSErrors: true,
+            headless: true
+        });
+
+        let result = '';
+        try {
+            page = await browser.newPage();
+            await page.goto(URL, {waitUntil: 'networkidle0'});
+            await page.exposeFunction('VALIDATE', specificValidator);
+
+            result = await page.evaluate(async (badElement) => {
+                // Find the element that was reported
+                const query = badElement.path
+                    .filter(x => x.localName != undefined)
+                    .map(x => x.localName)
+                    .reverse()
+                    .join(' > ')
+                const possibleElements = document.querySelectorAll(query)
+                let element = [...possibleElements].filter(n => n.outerHTML == badElement.outerHTML);
+
+                // Call the validator
+                return await window.VALIDATE(element[0].outerHTML)
+            }, reportedElement);
+        } catch (error) {
+            console.log('ERROR OCCURED')
+            console.log(error)
+            result = "UNVALIDATIBLE"
+        }
+
+        browser.close();
+        console.log(result)
+        return result
+    }
 }
 
 const report = {
@@ -121,4 +131,20 @@ const report = {
 
 //baseValidator(report.url, a => {console.log(a); return 'hi'}, report.content)
 
-exports.baseValidator = baseValidator;
+exports.Validator = Validator;
+exports.CoreValidator = CoreValidator;
+exports.Singleton = (function(){
+    var instance;
+    return {
+        setInstance : function(value) {
+            instance = value;
+        },
+        getInstance : function(){
+            if(!instance) {  // check already exists
+                instance = new CoreValidator();
+            }
+            return instance;
+        }
+    }
+})();
+

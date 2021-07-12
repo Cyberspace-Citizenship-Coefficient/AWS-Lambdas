@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Cyberspace-Citizenship-Coefficient/AWS-Lambdas#readme",
   "dependencies": {
+    "ccc-aws-lambda-common": "^1.0.15",
     "puppeteer": "^10.1.0",
     "vandium": "^6.1.0"
   },
