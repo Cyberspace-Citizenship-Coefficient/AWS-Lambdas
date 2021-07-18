@@ -15,7 +15,27 @@ class Validator {
 }
 
 class CoreValidator extends Validator {
+	getValidator(infractionType) {
+		let validator = {
+			mutate: a => a;
+			validate: b => false;
+		}
+		switch (infractionType) {
+			case 'httpNotHttps':
+				// code block
+				validator = require('./specificValidators/https.js')
+				break;
+		}
+		
+		return validator
+	}
+	
     async validate(infraction) {
+		const validator = getValidator(infraction.type);
+		if (validator.mutate) {
+			infraction = await validator.mutate(infraction);
+		}
+		
         let URL = infraction.url;
         let reportedElement = infraction.content;
         let browser, page;
@@ -26,14 +46,17 @@ class CoreValidator extends Validator {
                 "--start-fullscreen"
             ],
             ignoreHTTPSErrors: true,
-            headless: true
+            headless: true.
+			ignoreDefaultArgs: [
+				"--mute-audio"
+			]
         });
 
         let result = '';
         try {
             page = await browser.newPage();
             await page.goto(URL, {waitUntil: 'networkidle0'});
-            await page.exposeFunction('VALIDATE', specificValidator);
+            await page.exposeFunction('VALIDATE', validator.validate);
 
             result = await page.evaluate(async (badElement) => {
                 // Find the element that was reported
@@ -51,11 +74,10 @@ class CoreValidator extends Validator {
         } catch (error) {
             console.log('ERROR OCCURED')
             console.log(error)
-            result = "UNVALIDATIBLE"
+            result = false
         }
 
         browser.close();
-        console.log(result)
         return result
     }
 }
