@@ -22,8 +22,10 @@ class CoreValidator extends Validator {
 		}
 		switch (infractionType) {
 			case 'httpNotHttps':
-				// code block
 				validator = require('./specificValidators/https.js')
+				break;
+			case 'AdWithAudio':
+				validator = require('./specificValidators/audio.js')
 				break;
 		}
 		
@@ -81,77 +83,6 @@ class CoreValidator extends Validator {
         return result
     }
 }
-
-const report = {
-    "content": {
-        "outerHTML": "<a class=\"snippet-btn snippet-subscribe-btn\" href=\"https://store.wsj.com/shop/us/us/wsjusfjs21/?inttrackingCode=aaqxesho&amp;icid=WSJ_ON_SPG_ACQ_NA&amp;n2IKsaD9=n2IKsaD9&amp;Pg9aWOPT=Pg9aWOPT&amp;Cp5dKJWb=Cp5dKJWb&amp;APCc9OU1=APCc9OU1&amp;cx_campaign=WSJUSJulyFourthFY21\">\n            Subscribe\n          </a>",
-        "path": [
-            {
-                "ID": "",
-                "localName": "a"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "main",
-                "localName": "main"
-            },
-            {
-                "ID": "",
-                "localName": "article"
-            },
-            {
-                "ID": "article_sector",
-                "localName": "div"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "article_body",
-                "localName": "body"
-            },
-            {
-                "ID": "",
-                "localName": "html"
-            },
-            {},
-            {}
-        ]
-    },
-    "reporter": "fbb17c21-db73-4dc3-a66d-2ab819022aad",
-    "type": "PaywallInPage",
-    "url": "https://www.wsj.com/articles/miami-area-condo-collapse-sparks-calls-for-tighter-laws-11625922002?mod=hp_lead_pos7"
-}
-
-//baseValidator(report.url, a => {console.log(a); return 'hi'}, report.content)
 
 exports.Validator = Validator;
 exports.CoreValidator = CoreValidator;
