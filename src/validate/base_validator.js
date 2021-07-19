@@ -15,7 +15,29 @@ class Validator {
 }
 
 class CoreValidator extends Validator {
+	getValidator(infractionType) {
+		let validator = {
+			mutate: a => a;
+			validate: b => false;
+		}
+		switch (infractionType) {
+			case 'httpNotHttps':
+				validator = require('./specificValidators/https.js')
+				break;
+			case 'AdWithAudio':
+				validator = require('./specificValidators/audio.js')
+				break;
+		}
+		
+		return validator
+	}
+	
     async validate(infraction) {
+		const validator = getValidator(infraction.type);
+		if (validator.mutate) {
+			infraction = await validator.mutate(infraction);
+		}
+		
         let URL = infraction.url;
         let reportedElement = infraction.content;
         let browser, page;
@@ -26,14 +48,17 @@ class CoreValidator extends Validator {
                 "--start-fullscreen"
             ],
             ignoreHTTPSErrors: true,
-            headless: true
+            headless: true.
+			ignoreDefaultArgs: [
+				"--mute-audio"
+			]
         });
 
         let result = '';
         try {
             page = await browser.newPage();
             await page.goto(URL, {waitUntil: 'networkidle0'});
-            await page.exposeFunction('VALIDATE', specificValidator);
+            await page.exposeFunction('VALIDATE', validator.validate);
 
             result = await page.evaluate(async (badElement) => {
                 // Find the element that was reported
@@ -51,85 +76,13 @@ class CoreValidator extends Validator {
         } catch (error) {
             console.log('ERROR OCCURED')
             console.log(error)
-            result = "UNVALIDATIBLE"
+            result = false
         }
 
         browser.close();
-        console.log(result)
         return result
     }
 }
-
-const report = {
-    "content": {
-        "outerHTML": "<a class=\"snippet-btn snippet-subscribe-btn\" href=\"https://store.wsj.com/shop/us/us/wsjusfjs21/?inttrackingCode=aaqxesho&amp;icid=WSJ_ON_SPG_ACQ_NA&amp;n2IKsaD9=n2IKsaD9&amp;Pg9aWOPT=Pg9aWOPT&amp;Cp5dKJWb=Cp5dKJWb&amp;APCc9OU1=APCc9OU1&amp;cx_campaign=WSJUSJulyFourthFY21\">\n            Subscribe\n          </a>",
-        "path": [
-            {
-                "ID": "",
-                "localName": "a"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "main",
-                "localName": "main"
-            },
-            {
-                "ID": "",
-                "localName": "article"
-            },
-            {
-                "ID": "article_sector",
-                "localName": "div"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "",
-                "localName": "div"
-            },
-            {
-                "ID": "article_body",
-                "localName": "body"
-            },
-            {
-                "ID": "",
-                "localName": "html"
-            },
-            {},
-            {}
-        ]
-    },
-    "reporter": "fbb17c21-db73-4dc3-a66d-2ab819022aad",
-    "type": "PaywallInPage",
-    "url": "https://www.wsj.com/articles/miami-area-condo-collapse-sparks-calls-for-tighter-laws-11625922002?mod=hp_lead_pos7"
-}
-
-//baseValidator(report.url, a => {console.log(a); return 'hi'}, report.content)
 
 exports.Validator = Validator;
 exports.CoreValidator = CoreValidator;
