@@ -33,6 +33,7 @@ class CoreValidator extends Validator {
 	}
 	
     async validate(infraction) {
+	    console.log('validation: validating infraction of type ' + infraction.type);
 		const validator = this.getValidator(infraction.type);
 		if (validator.mutate) {
 			infraction = await validator.mutate(infraction);
@@ -54,13 +55,18 @@ class CoreValidator extends Validator {
 			]
         });
 
+        console.log('validation: browser created');
+
         let result = '';
         try {
             page = await browser.newPage();
+            console.log('validation: directing browser to ' + URL);
             await page.goto(URL, {waitUntil: 'networkidle0'});
             await page.exposeFunction('VALIDATE', validator.validate);
 
+            console.log('validation: invoking page evaluation');
             result = await page.evaluate(async (badElement) => {
+                console.log('validation: invoking page evaluation callback');
                 // Find the element that was reported
                 const query = badElement.path
                     .filter(x => x.localName != undefined)
