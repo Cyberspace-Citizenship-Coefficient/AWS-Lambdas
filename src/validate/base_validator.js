@@ -17,8 +17,8 @@ class Validator {
 class CoreValidator extends Validator {
 	getValidator(infractionType) {
 		let validator = {
-			mutate: a => a;
-			validate: b => false;
+			mutate: a => a,
+			validate: b => false
 		}
 		switch (infractionType) {
 			case 'httpNotHttps':
@@ -33,7 +33,7 @@ class CoreValidator extends Validator {
 	}
 	
     async validate(infraction) {
-		const validator = getValidator(infraction.type);
+		const validator = this.getValidator(infraction.type);
 		if (validator.mutate) {
 			infraction = await validator.mutate(infraction);
 		}
@@ -48,7 +48,7 @@ class CoreValidator extends Validator {
                 "--start-fullscreen"
             ],
             ignoreHTTPSErrors: true,
-            headless: true.
+            headless: true,
 			ignoreDefaultArgs: [
 				"--mute-audio"
 			]
