@@ -1,0 +1,20 @@
+{
+    "Records": [
+        {
+            "messageId": "bf4db6c5-cfc9-4573-85bf-0642f523a07e",
+            "receiptHandle": "AQEBxS///xeagYb/24PocBunNDwgZ9+1zquKHs5fc+A7yjksHXB7WRmx628s5opaMifgdv8St3jySAWGH1usoUVet7AQ0Yrgtq9RJnrHFCiXkyJb90DDPZ75vqUsFKvJkWTC5vbQwstI84wSfzlw61SR9DXhfnSU/7+Wf3Y5ZnJQP9S90LPge3Y9um1WTCta0JuThv4w2l1DRxiW99EQqO6wjFaRQ2xVqoFCpLgShqnV9JgvUcD3Z96PpV1j0XKB8o64SsyTqo1O2/YhOTwa0JYIgCs1TfYmnybI5RvrDlRyGX4TEi8loeCuEsHkp8ZyexPK8GtuNyISzXT1XRE3v4TN55N2s6Tm6egsHgZhzO+6OeUfy6j1HuLTdkD9K9gyRIn3HxCLRLyd35rraIuRyOn0mg==",
+            "body": "{\n  \"Type\" : \"Notification\",\n  \"MessageId\" : \"c9506599-1967-58b0-a040-3cfc79b5e588\",\n  \"TopicArn\" : \"arn:aws:sns:us-east-2:656366925447:ccc_validator_topic\",\n  \"Message\" : \"{\\\"id\\\":\\\"02cdac41-7919-4d33-b8c0-0f977b9e6794\\\",\\\"reporter\\\":\\\"4df516cf-4065-45a3-8259-dc8ae9acc596\\\",\\\"url\\\":\\\"https://www.google.com\\\",\\\"type\\\":\\\"PaywallInPage\\\",\\\"timestamp\\\":\\\"2021-06-29T00:47:38.109Z\\\",\\\"content\\\":{\\\"outerHTML\\\":\\\"<div class=\\\\\\\"title\\\\\\\">Please register or log in to keep reading</div>\\\",\\\"path\\\":[{\\\"ID\\\":\\\"\\\",\\\"localName\\\":\\\"div\\\"},{\\\"ID\\\":\\\"\\\",\\\"localName\\\":\\\"div\\\"},{\\\"ID\\\":\\\"\\\",\\\"localName\\\":\\\"div\\\"},{\\\"ID\\\":\\\"\\\",\\\"localName\\\":\\\"div\\\"},{\\\"ID\\\":\\\"\\\",\\\"localName\\\":\\\"div\\\"},{\\\"ID\\\":\\\"lee-registration-wall-modal\\\",\\\"localName\\\":\\\"div\\\"},{\\\"ID\\\":\\\"lee-registration-wall\\\",\\\"localName\\\":\\\"div\\\"},{\\\"ID\\\":\\\"\\\",\\\"localName\\\":\\\"body\\\"},{\\\"ID\\\":\\\"\\\",\\\"localName\\\":\\\"html\\\"},{},{}]}}\",\n  \"Timestamp\" : \"2021-07-11T21:11:46.879Z\",\n  \"SignatureVersion\" : \"1\",\n  \"Signature\" : \"NttGyryDjrCcPSSbKEsFNMtrvLEuJTJY0GVylO2FThpU1dN2kZXWJjfzLcEzCAf92R7xboAhgtRQPRYK+klf6gPqL68EmJMlL4eu7YW0KGJAnhATaAlD6At6NUxiclEZYVsyevR1VshjntZKY5G2tmfP+r9xVHYbOcdVbjyzkc03gfavKf7WJug1anIvKFyqBdQUa2waI+ILxmYuLg0YGjejzjSXd0Lj1m/WYmkcC3A974tq69pcw/5kCXj85ozN0pu86MX9qjzx4LcZnwE7OfnkTlRySPe0UbwT5tSKDdK2Uo6o+d9sAPSf5MKIuu/2KhNaTkUwMYlBgtt6AewYtg==\",\n  \"SigningCertURL\" : \"https://sns.us-east-2.amazonaws.com/SimpleNotificationService-010a507c1833636cd94bdb98bd93083a.pem\",\n  \"UnsubscribeURL\" : \"https://sns.us-east-2.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-2:656366925447:ccc_validator_topic:bc846d37-8c8b-4009-822d-240434d34bf2\"\n}",
+            "attributes": {
+                "ApproximateReceiveCount": "1",
+                "SentTimestamp": "1626037906911",
+                "SenderId": "AIDAJQR6QDGQ7PATMSYEY",
+                "ApproximateFirstReceiveTimestamp": "1626037906917"
+            },
+            "messageAttributes": {},
+            "md5OfBody": "06d42c1ac1065c3da1a71cf5b875b70b",
+            "eventSource": "aws:sqs",
+            "eventSourceARN": "arn:aws:sqs:us-east-2:656366925447:ccc_validator_queue",
+            "awsRegion": "us-east-2"
+        }
+    ]
+}

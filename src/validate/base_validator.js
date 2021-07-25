@@ -17,8 +17,8 @@ class Validator {
 class CoreValidator extends Validator {
 	getValidator(infractionType) {
 		let validator = {
-			mutate: a => a;
-			validate: b => false;
+			mutate: a => a,
+			validate: b => false
 		}
 		switch (infractionType) {
 			case 'httpNotHttps':
@@ -33,7 +33,8 @@ class CoreValidator extends Validator {
 	}
 	
     async validate(infraction) {
-		const validator = getValidator(infraction.type);
+	    console.log('validation: validating infraction of type ' + infraction.type);
+		const validator = this.getValidator(infraction.type);
 		if (validator.mutate) {
 			infraction = await validator.mutate(infraction);
 		}
@@ -48,19 +49,24 @@ class CoreValidator extends Validator {
                 "--start-fullscreen"
             ],
             ignoreHTTPSErrors: true,
-            headless: true.
+            headless: true,
 			ignoreDefaultArgs: [
 				"--mute-audio"
 			]
         });
 
+        console.log('validation: browser created');
+
         let result = '';
         try {
             page = await browser.newPage();
+            console.log('validation: directing browser to ' + URL);
             await page.goto(URL, {waitUntil: 'networkidle0'});
             await page.exposeFunction('VALIDATE', validator.validate);
 
+            console.log('validation: invoking page evaluation');
             result = await page.evaluate(async (badElement) => {
+                console.log('validation: invoking page evaluation callback');
                 // Find the element that was reported
                 const query = badElement.path
                     .filter(x => x.localName != undefined)
