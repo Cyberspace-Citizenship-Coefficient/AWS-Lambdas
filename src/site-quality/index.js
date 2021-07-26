@@ -3,7 +3,7 @@
 "use strict";
 
 const vandium = require('vandium');
-const siteQualityDAO = require('./siteQualityDAO')
+const siteQualityDAO = require('ccc-aws-common').dao.siteQuality;
 
 exports.handler = vandium.api()
 	.GET()

@@ -10,9 +10,9 @@ let sourceIP = '192.168.1.1';
 
 describe( 'valid devices', function() {
 	it('should be stored in database', async function () {
-		let myPutItem = jest.fn((parameters, callback) => {
-			callback(undefined, {});
-		});
+		let myPutItem = jest.fn(() => ({
+			promise: () => Promise.resolve(undefined)
+		}));
 		let devicesDAO = new devices.DeviceDAO({
 			dynamodb: {
 				putItem: myPutItem

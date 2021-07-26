@@ -28,8 +28,8 @@
     "lambda-tester": "^4.0.1"
   },
   "dependencies": {
-    "aws-sdk": "^2.943.0",
-    "ccc-aws-lambda-common": "^1.0.9",
+    "aws-sdk": "^2.953.0",
+    "ccc-aws-common": "^1.0.23",
     "uuid": "^8.3.2",
     "vandium": "^6.1.0"
   }

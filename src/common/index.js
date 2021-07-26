@@ -1,7 +1,10 @@
+const dao = require('./dao')
+
 module.exports = {
     config: require('./config'),
     db: require('./db'),
     sns: require('./sns'),
     sqs: require('./sqs'),
-    BaseDAO: require('./dao').BaseDAO
+    dao: dao,
+    BaseDAO: dao.BaseDAO
 };

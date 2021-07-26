@@ -14,18 +14,18 @@ let validInfractionInput = {
 };
 
 describe( 'valid infractions', function() {
-	let myPutItem = jest.fn((parameters, callback) => {
-		callback(undefined, {});
-	});
+	let putItem = jest.fn(() => ({
+		promise: () => Promise.resolve(undefined)
+	}));
 	let dao = new infractions.InfractionDAO({
 		dynamodb: {
-			putItem: myPutItem
+			putItem: putItem
 		}
 	});
 
 	it('should be stored in database', async function () {
 		await dao.put(validInfractionInput);
-		expect(myPutItem.mock.calls.length).is.eq(1);
+		expect(putItem.mock.calls.length).is.eq(1);
 	});
 });
 
@@ -42,10 +42,9 @@ describe('valid id', function() {
 			}
 		};
 
-		let myGetItem = jest.fn((parameters, callback) => {
-			callback(undefined, myGetItemResponse);
-		});
-
+		let myGetItem = jest.fn(() => ({
+			promise: () => Promise.resolve(myGetItemResponse)
+		}));
 		let myDAO = new infractions.InfractionDAO({
 			dynamodb: {
 				getItem: myGetItem

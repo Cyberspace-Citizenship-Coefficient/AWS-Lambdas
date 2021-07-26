@@ -17,8 +17,8 @@
   },
   "homepage": "https://github.com/Cyberspace-Citizenship-Coefficient/AWS-Lambdas#readme",
   "dependencies": {
-    "aws-sdk": "^2.927.0",
+    "aws-sdk": "^2.953.0",
     "node-fetch": "^2.6.1",
-    "puppeteer": "^10.0.0"
+    "puppeteer": "^10.1.0"
   }
 }

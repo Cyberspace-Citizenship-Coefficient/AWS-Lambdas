@@ -3,7 +3,7 @@
 "use strict";
 
 const vandium = require('vandium');
-const devices = require('./devices.js');
+const devices = require('ccc-aws-common').dao.devices;
 
 exports.handler = vandium.api()
 	.GET()

@@ -1,13 +1,13 @@
 'use strict';
 
-const common = require('ccc-aws-lambda-common');
+const BaseDAO = require('./base').BaseDAO;
 
 const defaultTableName = process.env.TBL_SCORING || 'scoring';
 
 const minute = 1440; // seconds in one minute
 const boundary = minute * 15;
 
-class ScoringDAO extends common.BaseDAO {
+class ScoringDAO extends BaseDAO {
     constructor(configuration) {
         super(configuration, defaultTableName);
     }

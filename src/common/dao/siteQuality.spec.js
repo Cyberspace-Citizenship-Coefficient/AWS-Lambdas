@@ -1,7 +1,7 @@
 'use strict';
 
 const expect = require('chai').expect;
-const siteQuality = require('./siteQualityDAO');
+const siteQuality = require('./siteQuality');
 
 describe( 'storing a site', function() {
 	it('should call putItem', async function () {

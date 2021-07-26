@@ -1,26 +1,13 @@
 "use strict";
 
 const uuid = require('uuid');
-const common = require('ccc-aws-lambda-common');
+const BaseDAO = require('./base').BaseDAO;
 
 const defaultTableName = 'devices';
 
-/* export */ class DeviceDAO {
+/* export */ class DeviceDAO extends BaseDAO {
     constructor(configuration) {
-        if (configuration !== undefined) {
-            this.dynamodb = configuration.dynamodb;
-        }
-    }
-
-    async client() {
-        if (this.dynamodb === undefined) {
-            this.dynamodb = await common.db.dynamodb.getClient();
-            this.tableName = configuration.tableName;
-        }
-        if (!this.tableName) {
-            this.tableName = defaultTableName;
-        }
-        return this.dynamodb;
+        super(configuration, defaultTableName);
     }
 
     /**
@@ -36,19 +23,13 @@ const defaultTableName = 'devices';
         }
 
         let dynamo = await this.client();
-
-        return new Promise((resolve, reject) => {
-            dynamo.get(parameters, function(err, data) {
-                if (err) {
-                    console.log(err);
-                    reject(err);
-                } else {
-                    console.log('data');
-                    console.log(data);
-                    resolve(data);
-                }
+        return dynamo
+            .getItem(parameters).promise()
+            .then(data => {
+                console.log('data');
+                console.log(data);
+                resolve(data);
             });
-        });
     }
 
     /**
@@ -80,16 +61,9 @@ const defaultTableName = 'devices';
             Item: deviceAsItem
         };
 
-        return new Promise((resolve, reject) => {
-            dynamo.putItem(parameters, function(err, data) {
-                if (err) {
-                    console.log(err);
-                    reject(err);
-                } else {
-                    resolve(deviceId);
-                }
-            });
-        });
+        return dynamo
+            .putItem(parameters).promise()
+            .then(data => deviceId);
     }
 }
 

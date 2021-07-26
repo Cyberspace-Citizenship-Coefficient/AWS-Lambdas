@@ -7,7 +7,7 @@ const lambdaEventMock = require('lambda-event-mock');
 
 const myLambda = require('./index');
 const validator = require('./base_validator')
-const testData = require('./test-data');
+const testData = require('ccc-aws-common-test');
 
 describe( 'Performing a validation', function() {
 	it('requires a valid infraction', async function () {

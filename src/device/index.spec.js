@@ -6,7 +6,7 @@ const lambdaTester = require('lambda-tester');
 const lambdaEventMock = require('lambda-event-mock');
 
 const myLambda = require('./index');
-const devices = require('./devices');
+const devices = require('ccc-aws-common').dao.devices;
 
 describe( 'Getting a device', function() {
 	it('returns a value when exists', async function () {

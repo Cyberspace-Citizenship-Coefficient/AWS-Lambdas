@@ -6,8 +6,8 @@ const lambdaTester = require('lambda-tester');
 const lambdaEventMock = require('lambda-event-mock');
 
 const myLambda = require('./index');
-const infractions = require('./infractions');
 const validator = require('./validation');
+const infractions = require('ccc-aws-common').dao.infractions;
 
 const expect = chai.expect;
 

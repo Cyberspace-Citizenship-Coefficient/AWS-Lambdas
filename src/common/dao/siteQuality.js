@@ -1,6 +1,7 @@
 "use strict";
 
-const common = require('ccc-aws-lambda-common');
+const BaseDAO = require('./base').BaseDAO;
+const validation = require('../db').validation;
 
 const defaultTableName = process.env.TBL_SITE_QUALITY || 'site-quality';
 
@@ -29,7 +30,7 @@ function getRating(quantitativeScore) {
     throw Error('invalid score')
 }
 
-class SiteQualityDAO extends common.BaseDAO {
+class SiteQualityDAO extends BaseDAO {
     constructor(configuration) {
         super(configuration, defaultTableName);
     }
@@ -46,7 +47,7 @@ class SiteQualityDAO extends common.BaseDAO {
             .then(data => {
                 let itemData = data.Item;
                 if (itemData) {
-                    let siteValue = common.db.validation.requiredNumber(itemData, 'value')
+                    let siteValue = validation.requiredNumber(itemData, 'value')
                     let siteRating = getRating(siteValue);
                     return {
                         site: site,

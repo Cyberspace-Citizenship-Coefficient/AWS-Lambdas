@@ -4,7 +4,7 @@ const chai = require('chai');
 const expect = chai.expect;
 
 const scoring = require('./scoring');
-const testData = require('./test-data');
+const testData = require('ccc-aws-common-test');
 
 describe( 'Creating a DAO', function() {
 	it('succeeds when provided configuration', async function () {
