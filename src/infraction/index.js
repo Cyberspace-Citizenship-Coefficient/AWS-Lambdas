@@ -2,8 +2,8 @@
 "use strict";
 
 const vandium = require('vandium');
-const infractions = require('./infractions.js');
 const validation = require('./validation.js');
+const infractions = require('ccc-aws-common').dao.infractions;
 
 exports.handler = vandium.api()
 	.GET()

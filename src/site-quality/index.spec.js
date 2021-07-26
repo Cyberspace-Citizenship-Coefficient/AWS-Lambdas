@@ -5,7 +5,8 @@ const lambdaTester = require('lambda-tester');
 const lambdaEventMock = require('lambda-event-mock');
 
 const myLambda = require('./index');
-const siteQualityDAO = require('./siteQualityDAO');
+const siteQualityDAO = require('ccc-aws-common').dao.siteQuality;
+
 
 const siteName = 'www.transactqrs.com'
 const siteRating = 'iffy'

@@ -17,7 +17,7 @@
     "lambda-tester": "^4.0.1"
   },
   "dependencies": {
-    "ccc-aws-lambda-common": "^1.0.17",
+    "ccc-aws-common": "^1.0.23",
     "vandium": "^6.1.0"
   }
 }

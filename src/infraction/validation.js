@@ -1,6 +1,6 @@
 "use strict";
 
-const common = require('ccc-aws-lambda-common');
+const common = require('ccc-aws-common');
 
 // the AWS topic (SNS) that will receive validation requests
 let defaultValidationTopic = process.env.ARN_TOPIC_VALIDATION || 'validation_topic';
