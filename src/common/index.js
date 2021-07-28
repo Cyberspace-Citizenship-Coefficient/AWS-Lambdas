@@ -6,5 +6,6 @@ module.exports = {
     sns: require('./sns'),
     sqs: require('./sqs'),
     dao: dao,
-    BaseDAO: dao.BaseDAO
+    BaseDAO: dao.BaseDAO,
+    singleton: require('./singleton')
 };

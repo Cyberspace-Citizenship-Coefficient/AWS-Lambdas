@@ -7,6 +7,7 @@ const lambdaEventMock = require('lambda-event-mock');
 
 const myLambda = require('./index');
 const validator = require('./base_validator')
+const common = require('ccc-aws-common');
 const testData = require('ccc-aws-common-test');
 
 describe( 'Performing a validation', function() {
@@ -15,6 +16,18 @@ describe( 'Performing a validation', function() {
 		validator.Singleton.setInstance({
 			validate: validateFunction
 		});
+
+		common.dao.scoring.Singleton.setInstance(new common.dao.scoring.ScoringDAO({
+			/*
+			dynamodb: {
+				putItem: () => ({
+					promise: () => {
+						return Promise.resolve(undefined)
+					}
+				})
+			}
+			 */
+		}));
 
 		let event = lambdaEventMock.sqs()
 			.messageId(uuid.v4())

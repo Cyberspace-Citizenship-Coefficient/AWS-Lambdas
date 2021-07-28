@@ -3,6 +3,8 @@
 
 const vandium = require('vandium');
 const validator = require('./base_validator');
+const common = require('ccc-aws-common');
+const scoring = require('./scoring');
 
 exports.handler = vandium.sqs((records, context) => {
 	return Promise.all(records.map(record => {
@@ -12,6 +14,17 @@ exports.handler = vandium.sqs((records, context) => {
 		let messageBody = JSON.parse(record.body);
 		let infraction = JSON.parse(messageBody.Message);
 		// Use infraction.type to determine what handling you intend
-		return validator.Singleton.getInstance().validate(infraction);
+		return validator.Singleton.getInstance()
+			.validate(infraction)
+			.then(() => {
+				const scoringAlgorithm = new scoring.MarginalScoringAlgorithm()
+				const score = scoringAlgorithm.score(infraction)
+				const scoringDao = common.dao.scoring.Singleton.getInstance()
+				return scoringDao.put(score);
+			})
+			.catch(error => {
+				console.log("ERROR: unable to process infraction " + infraction.id);
+				console.log(JSON.stringify(error));
+			});
 	}));
 });

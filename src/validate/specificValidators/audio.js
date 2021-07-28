@@ -15,11 +15,11 @@ exports.mutate = (infraction) => {
 }
 
 // TODO: Prove that it is an AD and not, like, youtube
-exports.validate = (elementToValidate) => {
+exports.validate = (document, elementToValidate) => {
 	if (isPlaying(elementToValidate)) {
 		return elementToValidate.muted;
 	} else {
-		subElements = elementToValidate.getElementsByTagName("*")
+		let subElements = elementToValidate.getElementsByTagName("*")
 		for (const subEle of subElements) {
 			if (isPlaying(subEle)) {
 				return subEle.muted;

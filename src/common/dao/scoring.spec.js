@@ -15,23 +15,23 @@ describe( 'Creating a DAO', function() {
 
 describe( 'Storing a score', function() {
 	it('succeeds', async function () {
-		let myPutItem = jest.fn((parameters) => ({
+		let updateItem = jest.fn(() => ({
 			promise: () => Promise.resolve()
 		}));
 		let dao = new scoring.ScoringDAO({
-			dynamodb: { putItem: myPutItem }
+			dynamodb: { updateItem: updateItem }
 		});
 		let score = testData.sampleScore;
 		await dao.put(score);
-		expect(myPutItem.mock.calls.length).to.eq(1);
+		expect(updateItem.mock.calls.length).to.eq(1);
 	});
 
 	it('fails', async function () {
-		let myPutItem = jest.fn((parameters) => ({
+		let updateItem = jest.fn(() => ({
 			promise: () => Promise.reject('test failure')
 		}));
 		let dao = new scoring.ScoringDAO({
-			dynamodb: { putItem: myPutItem }
+			dynamodb: { updateItem: updateItem }
 		});
 		let score = testData.sampleScore;
 		let error;
@@ -44,7 +44,7 @@ describe( 'Storing a score', function() {
 
 		expect(error).to.exist;
 		expect(error).to.eq('test failure');
-		expect(myPutItem.mock.calls.length).to.eq(1);
+		expect(updateItem.mock.calls.length).to.eq(1);
 	});
 
 });
