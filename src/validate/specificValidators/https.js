@@ -7,8 +7,8 @@ exports.mutate = (infraction) => {
 	return infraction
 }
 
-exports.validate = (elementToValidate) => {
-	if (window.location.href.includes('http://')) {
+exports.validate = (document, elementToValidate) => {
+	if (document.location.href.includes('http://')) {
 		return true
 	}
 	return false

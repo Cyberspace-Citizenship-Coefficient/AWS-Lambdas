@@ -64,6 +64,8 @@ class CoreValidator extends Validator {
             await page.goto(URL, {waitUntil: 'networkidle0'});
             await page.exposeFunction('VALIDATE', validator.validate);
 
+            let temp = 'nothing';
+
             console.log('validation: invoking page evaluation');
             result = await page.evaluate(async (badElement) => {
                 console.log('validation: invoking page evaluation callback');
@@ -77,7 +79,7 @@ class CoreValidator extends Validator {
                 let element = [...possibleElements].filter(n => n.outerHTML == badElement.outerHTML);
 
                 // Call the validator
-                return await window.VALIDATE(element[0].outerHTML)
+                return await window.VALIDATE(document, element[0].outerHTML)
             }, reportedElement);
         } catch (error) {
             console.log('ERROR OCCURED')

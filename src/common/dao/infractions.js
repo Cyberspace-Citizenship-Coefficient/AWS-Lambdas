@@ -44,6 +44,22 @@ function requiredString(item, name) {
     return requiredAttribute(item, name, stringValidator);
 }
 
+function itemToInfraction(itemData) {
+    let content = optionalAttribute(itemData, 'content', stringValidator);
+    if (content) {
+        content = JSON.parse(content);
+    }
+
+    return {
+        id: requiredString(itemData, 'id'),
+        reporter: requiredString(itemData, 'reporter'),
+        url: requiredString(itemData, 'url'),
+        type: requiredString(itemData, 'type'),
+        timestamp: requiredString(itemData, 'timestamp'),
+        content: content
+    };
+}
+
 /* export */
 class InfractionDAO extends BaseDAO {
     constructor(configuration) {
@@ -81,19 +97,7 @@ class InfractionDAO extends BaseDAO {
 
                 let itemData = data.Item;
                 if (itemData) {
-                    let content = optionalAttribute(itemData, 'content', stringValidator);
-                    if (content) {
-                        content = JSON.parse(content);
-                    }
-
-                    return {
-                        id: requiredString(itemData, 'id'),
-                        reporter: requiredString(itemData, 'reporter'),
-                        url: requiredString(itemData, 'url'),
-                        type: requiredString(itemData, 'type'),
-                        timestamp: requiredString(itemData, 'timestamp'),
-                        content: content
-                    };
+                    return itemToInfraction(itemData);
                 }
 
                 return undefined;
@@ -109,18 +113,18 @@ class InfractionDAO extends BaseDAO {
         let dynamo = await this.client();
         let infractionId = uuid.v4();
         let timestamp = (new Date()).toISOString();
-        let content = infraction.content;
-        if (content) {
-            content = JSON.stringify(content);
-        }
 
         let dynamoItem = {
             "id": {"S": infractionId},
             "reporter": {"S": infraction.reporter},
             "timestamp": {"S": timestamp},
             "url": {"S": infraction.url},
-            "type": {"S": infraction.type},
-            "content": {"S": content}
+            "type": {"S": infraction.type}
+        }
+
+        let content = infraction.content;
+        if (content) {
+            dynamoItem['content'] = {"S": JSON.stringify(content)}
         };
 
         let parameters = {
@@ -134,7 +138,22 @@ class InfractionDAO extends BaseDAO {
                 id: infractionId,
                 timestamp: timestamp,
                 result: data
-            }));
+            }))
+            .catch(error => {
+                console.log('ERROR: unable to putItem into database');
+                console.log(JSON.stringify({
+                    "error": error,
+                    "parameters": parameters
+                }));
+            });
+    }
+
+    async list(continuationId) {
+        let dynamo = await this.client();
+        let parameters = { TableName: this.tableName };
+        return dynamo
+            .scan(parameters).promise()
+            .then(result => result.Items.map(itemData => itemToInfraction(itemData)));
     }
 }
 
