@@ -28,13 +28,20 @@ function revalidateInfraction(infraction) {
 if (args.length == 0) {
     common.dao.infractions.Singleton.getInstance()
         .list()
-        .then(infractions => infractions.forEach(revalidateInfraction))
+        .then(async (infractions) => {
+            while (infractions.length) {
+                await Promise.allSettled(infractions.splice(0, 10).map(revalidateInfraction))
+            }
+        })
         .catch(error => reportError(error));
 } else {
     let instance = common.dao.infractions.Singleton.getInstance()
     args.forEach(id => instance
         .get(id)
         .then(revalidateInfraction)
-        .catch(error => reportError(error))
+        .catch(error => {
+            console.log('myerror')
+            console.log(error);
+        })
     );
 }
