@@ -16,11 +16,13 @@ exports.handler = vandium.sqs((records, context) => {
 		// Use infraction.type to determine what handling you intend
 		return validator.Singleton.getInstance()
 			.validate(infraction)
-			.then(() => {
-				const scoringAlgorithm = new scoring.MarginalScoringAlgorithm()
-				const score = scoringAlgorithm.score(infraction)
-				const scoringDao = common.dao.scoring.Singleton.getInstance()
-				return scoringDao.put(score);
+			.then(result => {
+				if (result) {
+					const scoringAlgorithm = new scoring.MarginalScoringAlgorithm()
+					const score = scoringAlgorithm.score(infraction)
+					const scoringDao = common.dao.scoring.Singleton.getInstance()
+					return scoringDao.put(score);
+				}
 			})
 			.catch(error => {
 				console.log("ERROR: unable to process infraction " + infraction.id);

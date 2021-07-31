@@ -2,7 +2,7 @@
 
 const ScoringAlgorithm = require('./algo')
 
-const minute = 1440; // seconds in one minute
+const minute = 1440000; // milliseconds in one minute
 const boundary = minute * 15;
 
 class MarginalScoringAlgorithm extends ScoringAlgorithm {
@@ -29,7 +29,7 @@ class MarginalScoringAlgorithm extends ScoringAlgorithm {
             console.log('timestamp type: ' + typeof(timestamp));
         }
 
-        score.timeIndex = timestamp % boundary;
+        score.timeIndex = Math.floor(timestamp / boundary);
         return score;
     }
 }
