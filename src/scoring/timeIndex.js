@@ -6,16 +6,29 @@ const common = require('ccc-aws-common');
 const bucketName = 'ccc-indexed-bucket'
 
 class TimeIndexDAO {
+    async visit(visitor) {
+        const s3client = await common.s3.getClient();
+        const params = {Bucket: bucketName, Prefix: 'timeIndex/'}
+        const self = this
+        await s3client.listObjects(params).promise()
+            .then(data => {
+                return Promise.all(_.map(data.Contents, async function(s3item) {
+                    const keyParts = s3item.Key.split('/');
+                    const timeIndex = parseInt(keyParts[2]);
+                    const timeIndexData = await self.get(timeIndex)
+                    visitor(timeIndex, timeIndexData)
+                }));
+            });
+    }
+
     async get(timeIndex) {
         const s3client = await common.s3.getClient();
         const indexBlock = Math.floor(timeIndex / 100)
         const indexKey = 'timeIndex/' + indexBlock + '/' + timeIndex
         const params = {Bucket: bucketName, Key: indexKey}
 
-        await s3client.getObject(params).promise()
-            .then(data => {
-                console.log(data);
-            });
+        return s3client.getObject(params).promise()
+            .then(data => JSON.parse(data.Body.toString()));
     }
 
     async put(timeIndex, timeIndexData) {

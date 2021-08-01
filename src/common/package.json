@@ -1,6 +1,6 @@
 {
   "name": "ccc-aws-common",
-  "version": "1.0.40",
+  "version": "1.0.44",
   "description": "Common library infrastructure for lambdas",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,8 @@
     "registry": "http://localhost:4873"
   },
   "dependencies": {
-    "aws-sdk": "^2.953.0"
+    "aws-sdk": "^2.953.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "ccc-aws-common-test": "^1.0.1",
