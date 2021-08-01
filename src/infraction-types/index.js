@@ -3,9 +3,6 @@ exports.handler = async(event) => {
         title: "Report Ad with Audio",
         id: "AdWithAudio"
     }, {
-    //    title: "Report Paywall in middle of page",
-    //    id: "PaywallInPage"
-    //}, {
         title: "Site Uses HTTP not HTTPS",
         id: "httpNotHttps"
     }];
@@ -15,3 +12,7 @@ exports.handler = async(event) => {
     };
     return response;
 };
+//{
+//    title: "Report Paywall in middle of page",
+//    id: "PaywallInPage"
+//}
