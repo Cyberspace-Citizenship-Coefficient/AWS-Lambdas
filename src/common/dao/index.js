@@ -3,5 +3,6 @@ module.exports = {
     infractions: require('./infractions'),
     devices: require('./devices'),
     scoring: require('./scoring'),
-    siteQuality: require('./siteQuality')
+    siteQuality: require('./siteQuality'),
+    wallOfShame: require('./wallofshame')
 };
