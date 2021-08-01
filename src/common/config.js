@@ -60,4 +60,8 @@ exports.sqs = {
     region: appRegion
 };
 
+exports.s3 = {
+    region: appRegion
+};
+
 module.exports = exports;
