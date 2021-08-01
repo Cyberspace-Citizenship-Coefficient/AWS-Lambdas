@@ -46,6 +46,5 @@ describe( 'Storing a score', function() {
 		expect(error).to.eq('test failure');
 		expect(updateItem.mock.calls.length).to.eq(1);
 	});
-
 });
 
