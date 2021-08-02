@@ -32,7 +32,10 @@ exports.handler = vandium.api()
 				content: event.body.content            // content
 			};
 
-			let result = await infractionDAO.put(infraction);
+			let result = await infractionDAO.put(infraction)
+			// send the infraction to be validated (asynchronous)
+			await validation.Singleton.getInstance().validate(infraction);
+			// return the resultant id
 			return result.id;
 		})
 	.PUT()
