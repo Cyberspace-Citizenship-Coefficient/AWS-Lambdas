@@ -2,13 +2,6 @@
 "use strict";
 
 const puppeteer = require('puppeteer');
-
-/*
-URL (String) URL to validate
-specificValidator (Function) function to call for validation
-reportedElement (Object)
-*/
-
 class Validator {
     async validate(infraction) {
     }
