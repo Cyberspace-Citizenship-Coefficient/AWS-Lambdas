@@ -3,6 +3,9 @@
 ## [common](./src/common)
 Contains common functions, like getters and setters, for use in all other lambdas
 
+## [common-test](./src/common-test)
+Contains common testing functions
+
 ## [device](./src/device)
 Used to register a new install of the plugin
 
