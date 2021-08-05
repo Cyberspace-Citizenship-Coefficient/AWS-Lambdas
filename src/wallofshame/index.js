@@ -15,9 +15,25 @@ exports.handler = vandium.api()
         let type = event.pathParameters.type;
         if (type === undefined) {
             let overallWoS = await common.dao.wallOfShame.get('current/overall');
-            return JSON.stringify(overallWoS);
+            return {
+                statusCode: 200,
+                headers: {
+                    "Access-Control-Allow-headers": "Content-Type",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+                },
+                body: JSON.stringify(overallWoS)
+            };
         }
 
         let typeWoS = await common.dao.wallOfShame.get('current/type/' + type);
-        return JSON.stringify(typeWoS);
+        return {
+            statusCode: 200,
+            headers: {
+              "Access-Control-Allow-headers": "Content-Type",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+            },
+            body: JSON.stringify(typeWoS)
+        };
     })
