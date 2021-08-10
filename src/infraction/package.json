@@ -1,0 +1,36 @@
+{
+  "name": "ccc-aws-infraction",
+  "version": "1.0.0",
+  "description": "AWS Lambdas For Cyberspace Citizenship Coefficient - Infraction (resource)",
+  "main": "index.js",
+  "scripts": {
+    "test-modules": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cyberspace-Citizenship-Coefficient/AWS-Lambdas.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cyberspace-Citizenship-Coefficient/AWS-Lambdas/issues"
+  },
+  "homepage": "https://github.com/Cyberspace-Citizenship-Coefficient/AWS-Lambdas#readme",
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "grunt": "^1.4.1",
+    "grunt-aws-lambda": "^0.13.0",
+    "jasmine": "^3.8.0",
+    "jest": "^27.0.6",
+    "jest-mock": "^27.0.6",
+    "lambda-event-mock": "^1.5.0",
+    "lambda-tester": "^4.0.1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.956.0",
+    "ccc-aws-common": "^1.0.35",
+    "uuid": "^8.3.2",
+    "vandium": "^6.1.0"
+  }
+}

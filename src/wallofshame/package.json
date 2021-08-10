@@ -1,0 +1,22 @@
+{
+  "name": "ccc-aws-wallofshame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ccc-aws-common": "^1.0.43",
+    "vandium": "^6.1.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "grunt": "^1.4.1",
+    "grunt-aws-lambda": "^0.13.0",
+    "lambda-event-mock": "^1.5.0",
+    "lambda-tester": "^4.0.1"
+  }
+}

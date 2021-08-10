@@ -1,10 +1,10 @@
 {
-  "name": "ccc-aws-lambdas",
+  "name": "ccc-aws-device",
   "version": "1.0.0",
-  "description": "AWS Lambdas for CCC",
+  "description": "AWS Lambdas For Cyberspace Citizenship Coefficient - Devices",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,8 +17,15 @@
   },
   "homepage": "https://github.com/Cyberspace-Citizenship-Coefficient/AWS-Lambdas#readme",
   "dependencies": {
-    "aws-sdk": "^2.953.0",
-    "node-fetch": "^2.6.1",
-    "puppeteer": "^10.1.0"
+    "ccc-aws-common": "^1.0.23",
+    "uuid": "^8.3.2",
+    "vandium": "^6.1.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "grunt": "^1.4.1",
+    "grunt-aws-lambda": "^0.13.0",
+    "lambda-event-mock": "^1.5.0",
+    "lambda-tester": "^4.0.1"
   }
 }
